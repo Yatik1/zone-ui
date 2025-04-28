@@ -10,7 +10,7 @@ function MessageList() {
     if(!message && !chats.length) {
         return (
             <div className='w-full h-full flex flex-col items-center justify-center'>
-                <h3 className='font-semibold text-2xl'>Start conversation with your AI friend</h3>
+                <h3 className='font-semibold text-2xl'>Start conversation with your AI companion</h3>
                 <p className='italic text-zinc-500 text-sm'>Try asking question or share something you'd like to discuss</p>
             </div>
         )
