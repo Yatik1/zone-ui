@@ -1,9 +1,10 @@
-import { Sparkles } from "lucide-react";
+import { File, Sparkles } from "lucide-react";
 import { easeIn, motion } from "motion/react"
 import { marked } from "marked";
+import FileSegment from "./ui/FileSegment";
 
 interface Message {
-    user: string;
+    user: string | any;
     ai: string;
   }
   
@@ -16,11 +17,15 @@ interface Message {
     return (
       <div className="flex flex-col w-full gap-2 animate-fade-in">
         
-        <div className="flex justify-end w-full">
-          
+        <div className="flex flex-col gap-2 items-end justify-end w-full">
+        {chat?.user?.file && (
+          <div className="flex w-full items-end justify-end">
+              <FileSegment fileName={chat.user?.file} bg="white" />
+          </div>
+        )}
           <div 
-            className="bg-linear-to-b from-black via-zinc-700 to-zinc-500 text-white px-4 py-2 rounded-2xl max-w-[70%]"
-            dangerouslySetInnerHTML={renderMarkdown(chat?.user)}
+            className="bg-white text-black border border-gray-200 px-4 py-2 rounded-2xl max-w-[70%]"
+            dangerouslySetInnerHTML={renderMarkdown(chat?.user.message)}
           >
           </div>
         </div>
@@ -33,7 +38,7 @@ interface Message {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: easeIn }}
-            className="bg-white text-black border border-gray-200 px-4 py-2 h-fit rounded-2xl shadow-xs/10 w-fit"
+            className="bg-linear-to-br from-black via-stone-700 to-stone-500 text-white px-4 py-2 h-fit rounded-2xl shadow-xs/10 w-fit max-w-[70%] "
             dangerouslySetInnerHTML={renderMarkdown(chat?.ai)}
           />
         </div>
