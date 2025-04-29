@@ -1,4 +1,3 @@
-import { File, Sparkles } from "lucide-react";
 import { easeIn, motion } from "motion/react"
 import { marked } from "marked";
 import FileSegment from "./ui/FileSegment";
@@ -30,10 +29,7 @@ interface Message {
           </div>
         </div>
         
-        <div className="flex items-start gap-3 justify-start w-full">
-          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-            <Sparkles className="h-5 w-5 text-emerald-600" />
-          </div>
+        <div className="flex items-center gap-3 justify-start w-full">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
