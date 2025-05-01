@@ -6,10 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import FileSegment from './ui/FileSegment';
 import {easeIn,motion} from "motion/react"
 
-// interface FileInputProps {
-//   file:File | null, 
-//   fileQuery:string,
-// }
 
 function Input() {
 
@@ -20,7 +16,7 @@ function Input() {
   const {setChats, chats, setMessage:newMessage} = useMessage() as any;
 
   const [message, setMessage] = useState<any>("")
-  const [selectedResponse, setSeletedResponse] = useState<string>("short")
+  const [selectedResponse, setSeletedResponse] = useState<string | undefined>("short")
   const [file, setFile] = useState<File | undefined>(undefined)
 
   const fileInput = useRef<HTMLInputElement>(null)
@@ -71,6 +67,8 @@ function Input() {
   async function fileSubmit() {
       try {
         setLoading(true)
+        setIsFile(true)
+        setSeletedResponse(undefined)
         newMessage(file?.name,message)
         const formData = new FormData()
         formData.append('file',file as any);
@@ -86,8 +84,10 @@ function Input() {
         console.log("File upload error", error)
       } finally{
         removeFile()
+        setIsFile(false)
         setMessage("")
         setLoading(false)
+        setSeletedResponse("short")
       }
   }
 
@@ -132,7 +132,7 @@ function Input() {
                 className='w-full outline-none resize-none mb-1'
                 value={message || ""}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
-                placeholder='Ask anything from the document.'
+                placeholder='Ask anything regarding document.'
               />
             ) : selectedResponse !== "detailed" ? (
               <input
@@ -201,7 +201,7 @@ function Input() {
           </div>
         </div>
 
-        {loading && selectedResponse!=="short" && (
+        {loading && (selectedResponse==="undefined" || selectedResponse==="detailed" || isFile) && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
