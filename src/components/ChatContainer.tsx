@@ -19,7 +19,7 @@ function ChatContainer() {
   } , [chats])
 
   return (
-    <div className='flex flex-col h-screen bg-gray-50'>
+    <div className='flex flex-col h-screen bg-[#fbfbfb]'>
         <Header />
         <div className="flex-1 overflow-hidden flex flex-col max-w-4xl w-full mx-auto px-4 md:px-6">
             <div className='flex-1 overflow-y-auto py-6'>
