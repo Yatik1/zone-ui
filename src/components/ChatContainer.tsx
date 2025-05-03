@@ -3,14 +3,24 @@ import useMessage from '../hooks/useMessage'
 import Header from './Header'
 import Input from './Input'
 import MessageList from './MessageList'
+import { useUser } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
 
 function ChatContainer() {
 
   const {chats} = useMessage() as any;
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+    const navigate = useNavigate()
+    const {isSignedIn} = useUser()
 
+  if(chats.length > 3 && !isSignedIn) {
+    (()=> {
+      navigate("/sign-in")
+    })()
+  }
+
+  useEffect(() => {
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
