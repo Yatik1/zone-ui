@@ -1,11 +1,13 @@
-import { File, X } from 'lucide-react'
+import { File, FileText, X } from 'lucide-react'
 
 function FileSegment({fileName, remove, bg}:{fileName:string, remove?:() => void, bg?:string}) {
   return (
     <div>
-        <div className={`relative min-w-[13rem] w-auto h-fit flex items-center justify-start rounded-lg border border-stone-300 gap-2 p-1 ${bg ? `bg-${bg}` : "bg-gray-50" }`}>
-            <div className="w-fit h-fit px-2 py-2 flex items-center justify-center bg-[#4A87ED] rounded-md text-white">
-                <File />
+        <div className={`relative min-w-[13rem] w-fit h-fit flex items-center justify-start rounded-lg border border-stone-300 gap-2 p-1 ${bg ? `bg-${bg}` : "bg-gray-50" }`}>
+            <div className={`w-fit h-fit px-2 py-2 flex items-center justify-center bg-gradient-to-br ${fileName?.includes(".pdf") ?  "from-pink-600 via-pink-500 to-pink-400" : "from-blue-500 via-blue-400 to-blue-300"} rounded-md text-white`}>
+                {
+                    fileName?.includes(".pdf") ? <File /> : <FileText />
+                }
             </div>
             <p className='text-md'>{fileName}</p>
             {
@@ -19,5 +21,6 @@ function FileSegment({fileName, remove, bg}:{fileName:string, remove?:() => void
     </div>
   )
 }
+
 
 export default FileSegment
