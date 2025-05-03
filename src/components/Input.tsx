@@ -1,5 +1,5 @@
 
-import { ArrowUp, File, Globe, Plus, User } from 'lucide-react'
+import { ArrowUp, File, FileText, Globe, Plus, User } from 'lucide-react'
 import useMessage from '../hooks/useMessage'
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
@@ -27,7 +27,7 @@ function Input() {
 
   const handleFileChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
-    if(selectedFile && !selectedFile?.name.includes(".pdf")){
+    if(selectedFile && !selectedFile?.name.includes(".jpg") && !selectedFile?.name.includes(".png") && !selectedFile?.name.includes(".svg")){
       setFile(selectedFile)
       setIsFile(true)
     } else {
@@ -169,10 +169,17 @@ function Input() {
             <div className='flex items-center justify-start w-full gap-2'>
 
               {isFile ? (
-                <button className={`flex items-center justify-start gap-1 bg-blue-300 text-blue-900 border border-blue-600  text-sm px-3 py-1 rounded-full`}>
-                  <File className="w-4 h-4" />
-                  <p className='w-fit'>Document</p>
+                file?.name.includes(".pdf") ? (
+                  <button className={`flex items-center justify-start gap-1 bg-pink-300 text-pink-900 border border-pink-600  text-sm px-3 py-1 rounded-full`}>
+                    <File className="w-4 h-4" />
+                    <p className='w-fit'>PDF</p>
                 </button>
+                ) : (
+                  <button className={`flex items-center justify-start gap-1 bg-blue-300 text-blue-900 border border-blue-600  text-sm px-3 py-1 rounded-full`}>
+                    <FileText className="w-4 h-4" />
+                    <p className='w-fit'>Document</p>
+                  </button>
+                )
               ) : (
                 <>
                   <button className={`flex items-center justify-start gap-1 ${selectedResponse === "short" ? "bg-orange-300 text-orange-900 border border-orange-600" : "bg-gray-200 text-gray-800"} text-sm px-3 py-1 rounded-full cursor-pointer`} onClick={() => {setSeletedResponse("short")}}>
