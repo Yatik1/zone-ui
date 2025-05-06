@@ -16,7 +16,7 @@ function ChatContainer() {
 
   if(chats.length > 3 && !isSignedIn) {
     (()=> {
-      navigate("/sign-in")
+      navigate("/auth/sign-in")
     })()
   }
 

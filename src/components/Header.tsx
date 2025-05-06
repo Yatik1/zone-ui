@@ -13,7 +13,7 @@ function Header() {
         <header className='flex items-center justify-center'>
 
           <SignedOut>
-          <div className='bg-linear-to-br from-stone-700 via-stone-600 to-stone-400 text-white text-sm px-3 py-2 rounded-full shadow-lg/15' onClick={() => navigate("/sign-in")}> 
+          <div className='bg-linear-to-br from-stone-700 via-stone-600 to-stone-400 text-white text-sm px-3 py-2 rounded-full shadow-lg/15' onClick={() => navigate("/auth/sign-in")}> 
             Sign in
           </div>
           </SignedOut>
