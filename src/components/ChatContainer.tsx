@@ -29,17 +29,17 @@ function ChatContainer() {
   } , [chats])
 
   return (
-    <div className='flex flex-col h-screen bg-[#fbfbfb]'>
+    <div className='flex flex-col h-screen bg-white'>
         <Header />
         <div className="flex-1 overflow-hidden flex flex-col max-w-4xl w-full mx-auto px-4 md:px-6">
-            <div className='flex-1 overflow-y-auto py-6'>
+            <div className='flex-1 overflow-y-auto py-6 noscroll'>
               <MessageList />
               <div ref={messagesEndRef} />
             </div>
             <div className="pb-6">
                 <Input />
             </div>
-</div>
+        </div>
     </div>
   )
 }
