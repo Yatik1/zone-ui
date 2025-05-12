@@ -23,7 +23,7 @@ interface Message {
           </div>
         )}
           <div 
-            className="bg-white text-black border border-gray-200 px-4 py-2 rounded-2xl max-w-[70%]"
+            className="bg-gray-200 text-black px-4 py-2 rounded-2xl max-w-[70%]"
             dangerouslySetInnerHTML={renderMarkdown(chat?.user.message)}
           >
           </div>
@@ -34,7 +34,7 @@ interface Message {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: easeIn }}
-            className="bg-linear-to-br from-black via-stone-700 to-stone-500 text-white px-4 py-2 h-fit rounded-2xl shadow-xs/10 w-fit max-w-[70%] "
+            className=" px-4 py-2 w-full"
             dangerouslySetInnerHTML={renderMarkdown(chat?.ai)}
           />
         </div>
