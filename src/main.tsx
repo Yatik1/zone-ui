@@ -5,6 +5,7 @@ import App from './App.tsx'
 import MessagesProvider from './context/MessageContext.tsx'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { BrowserRouter } from 'react-router-dom';
+import ControlProvider from './context/ControlContext.tsx'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -17,7 +18,9 @@ createRoot(document.getElementById('root')!).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl='/' >
       <BrowserRouter>
         <MessagesProvider>
-          <App />
+          <ControlProvider>
+            <App />
+          </ControlProvider>
         </MessagesProvider>
       </BrowserRouter>
     </ClerkProvider>
