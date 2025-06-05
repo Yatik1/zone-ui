@@ -9,7 +9,9 @@ import axios from 'axios';
 
 function ChatContainer() {
 
-    const {chats} = useMessage() as any;
+    const {messages} = useMessage() as any;
+    // const {id} = useParams() as {id:string}
+
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate()
@@ -17,24 +19,30 @@ function ChatContainer() {
 
     const hasCreatedUser = useRef(false)
 
-    useEffect(() => {
-    if (isSignedIn && user?.id && user?.fullName && !hasCreatedUser.current) {
-      const createUser = async () => {
+    const createUser = async () => {
         try {
           await axios.post('http://localhost:8001/api/users/', {
-            user_id: user.id,
-            user_name: user.fullName
+            user_id: user?.id,
+            user_name: user?.fullName
           });
           hasCreatedUser.current = true; 
         } catch (error) {
           console.log("Internal Error [USER CREATE ERROR]", error);
         }
-      };
+    };
+
+    
+
+
+
+    useEffect(() => {
+    if (isSignedIn && user?.id && user?.fullName && !hasCreatedUser.current) {
       createUser();
     }
   }, [isSignedIn, user]);
 
-  if(chats.length > 3 && !isSignedIn) {
+
+  if(messages.length > 3 && !isSignedIn) {
       navigate("/auth/sign-in")
   }
 
@@ -44,10 +52,10 @@ function ChatContainer() {
     }
 
     scrollToBottom()
-  } , [chats])
+  } , [messages])
 
   return (
-    <div className='flex flex-col h-screen bg-white'>
+    <div className='flex flex-col w-full h-screen bg-white'>
         <Header />
         <div className="flex-1 overflow-hidden flex flex-col max-w-4xl w-full mx-auto px-4 md:px-6">
             <div className='flex-1 overflow-y-auto py-6 noscroll'>
