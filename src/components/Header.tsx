@@ -9,7 +9,7 @@ function Header() {
   const {isOpen, setIsOpen} = useControl() as any
 
   return (
-    <div className="flex items-center justify-between border-b border-gray-200 p-3 bg-white">
+    <div className="flex items-center justify-between border-b border-gray-200 p-2.5 h-13 bg-white">
         
          { !isOpen && (
           <nav className='flex items-center justify-center'>        
@@ -20,9 +20,9 @@ function Header() {
           >
             <PanelLeft size={20}/>
           </small>
-          <h2 className="flex items-center justify-center text-2xl font-semibold ml-3 bg-gradient-to-r from-stone-700 via-stone-600 to-stone-500 bg-clip-text text-transparent">
+          <h2 className="flex items-center justify-center text-2xl font-semibold bg-gradient-to-r from-stone-700 via-stone-600 to-stone-500 bg-clip-text text-transparent">
             Zone
-        </h2>
+          </h2>
          </nav>
          )
          }

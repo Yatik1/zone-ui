@@ -8,6 +8,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<AppLayout />} />
+      <Route path="/:id" element={<AppLayout />} />
       <Route path='/auth/sign-in' element={<Signin />} />
     </Routes>
   );

@@ -3,9 +3,9 @@ import useMessage from '../hooks/useMessage'
 import MessageItem from './MessageItem'
 
 function MessageList() {
-    const {message, chats} = useMessage() as any
+    const {message, messages} = useMessage() as any
 
-    if(!message && !chats.length) {
+    if(!message && !messages.length) {
         return (
             <div className='w-full h-full flex flex-col items-center justify-center'>
                 <h3 className='font-semibold text-2xl bg-gradient-to-r from-stone-700 via-stone-600 to-stone-500 bg-clip-text text-transparent'>Start conversation with your AI companion</h3>
@@ -15,8 +15,8 @@ function MessageList() {
     }
   return (
     <div className='space-y-4'>
-        {chats.length >0 && 
-            chats.map((chat:any, index:any) => (
+        {messages.length >0 && 
+            messages.map((chat:any, index:any) => (
                 <div key={index}>
                     <MessageItem chat={chat} />
                 </div>
