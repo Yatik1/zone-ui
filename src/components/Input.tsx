@@ -12,7 +12,7 @@ function Input() {
   const [disabled, setDisabled] = useState<boolean>(true)
   const [isFile, setIsFile] = useState<boolean>(false)
 
-  const { setChats, chats, setMessage: newMessage } = useMessage() as any;
+  const { setMessages, messages, setMessage: newMessage } = useMessage() as any;
 
   const [message, setMessage] = useState<string>("")
   const [selectedResponse, setSelectedResponse] = useState<string | undefined>("short")
@@ -63,7 +63,7 @@ function Input() {
       setLoading(true)
       newMessage(message)
       const res = await axios.post('http://localhost:8000/chats', { message });
-      setChats([...chats, res.data])
+      setMessages([...messages, res.data])
     } catch (error) {
       console.log("[Chat Post Error]", error)
     } finally {
@@ -77,7 +77,7 @@ function Input() {
       setLoading(true)
       newMessage(message)
       const res = await axios.post('http://localhost:8000/ask', { query: message });
-      setChats([...chats, res.data])
+      setMessages([...messages, res.data])
     } catch (error) {
       console.log("[Chat Post Error]", error)
     } finally {
@@ -101,7 +101,7 @@ function Input() {
           'Content-Type': 'multipart/form-data'
         }
       })
-      setChats([...chats, res.data])
+      setMessages([...messages, res.data])
     } catch (error) {
       console.log("File upload error", error)
     } finally {
