@@ -32,7 +32,7 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
             <p className="text-sm w-full" onClick={() => {navigate(`/${chatID}`); setIsOpen(false);}}>{labelHandler(chatName)}</p>
             <section className="relative flex items-center justify-center" onClick={() => setOpenMenu(!openMenu)}>
                 <Ellipsis size={15} />
-                {openMenu && <MenuDrop />}
+                {openMenu && <MenuDrop  chatName={chatName} chatID={chatID} />}
             </section>
             
         </div>
