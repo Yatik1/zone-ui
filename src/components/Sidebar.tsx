@@ -4,7 +4,6 @@ import useMessage from "../hooks/useMessage"
 import ChatItem from "./ui/ChatIem"
 import axios from "axios"
 import { useClerk } from "@clerk/clerk-react"
-import { useEffect, useState } from "react"
 
 function Sidebar() {
     const {setIsOpen} = useControl() as any
@@ -26,26 +25,8 @@ function Sidebar() {
 
 function ChatBar() {
 
-     const {chats,setChats} = useMessage() as any
+     const {chats,setNewChat} = useMessage() as any
      const {user} = useClerk()
-
-     const [newChat, setNewChat] = useState({})
-
-
-     const getUserChats = async () => {
-             try {
-               const response = await fetch(`http://localhost:8001/api/get_users`)
-               const data = await response.json()
-               if(data) {
-                 const filteredData = data.filter((userData:any) => userData.user_id === user?.id)
-                 filteredData.forEach((data:any) => {
-                   setChats(data.chats)
-                 })
-               }
-             } catch (error) {
-               console.log("Error occurred while fetching user information", error)
-             }
-         }
 
         const newChatHandler = async () => {
             try {
@@ -60,10 +41,6 @@ function ChatBar() {
             }
         }
 
-
-       useEffect(() => {
-           getUserChats();
-       },[newChat])
 
     return (
         <div className="flex flex-col items-start justify-start gap-y-2 mt-4 p-2">
