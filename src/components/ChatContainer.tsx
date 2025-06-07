@@ -9,8 +9,7 @@ import axios from 'axios';
 
 function ChatContainer() {
 
-    const {messages} = useMessage() as any;
-    // const {id} = useParams() as {id:string}
+    const {messages,setChats,newChat} = useMessage() as any;
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -31,15 +30,28 @@ function ChatContainer() {
         }
     };
 
-    
-
-
+    const getUserChats = async () => {
+             try {
+               const response = await fetch(`http://localhost:8001/api/get_users`)
+               const data = await response.json()
+               if(data) {
+                 const filteredData = data.filter((userData:any) => userData.user_id === user?.id)
+                 filteredData.forEach((data:any) => {
+                   setChats([...data.chats].reverse())
+                 })
+               }
+             } catch (error) {
+               console.log("Error occurred while fetching user information", error)
+             }
+         }
 
     useEffect(() => {
-    if (isSignedIn && user?.id && user?.fullName && !hasCreatedUser.current) {
-      createUser();
+    if (isSignedIn && user?.id && user?.fullName && !hasCreatedUser.current && !newChat) {
+      createUser()
     }
-  }, [isSignedIn, user]);
+    getUserChats()
+  }, [isSignedIn, user, newChat]);
+
 
 
   if(messages.length > 3 && !isSignedIn) {
@@ -50,7 +62,6 @@ function ChatContainer() {
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-
     scrollToBottom()
   } , [messages])
 
