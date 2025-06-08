@@ -5,6 +5,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import FileSegment from './ui/FileSegment';
 import { easeIn, motion } from "motion/react"
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+import { useParams } from 'react-router-dom';
+import { useClerk } from '@clerk/clerk-react';
 
 function Input() {
 
@@ -19,6 +21,8 @@ function Input() {
   const [file, setFile] = useState<File | undefined>(undefined)
 
   const fileInput = useRef<HTMLInputElement>(null)
+  const {id:chatId} = useParams() as any
+  const {user} = useClerk() 
 
   const {
     browserSupportsSpeechRecognition,
@@ -62,7 +66,14 @@ function Input() {
     try {
       setLoading(true)
       newMessage(message)
-      const res = await axios.post('http://localhost:8000/chats', { message });
+
+      const payload = {
+        message, 
+        chat_id:chatId,
+        user_id:user?.id
+      }
+
+      const res = await axios.post('http://localhost:8000/chats', payload);
       setMessages([...messages, res.data])
     } catch (error) {
       console.log("[Chat Post Error]", error)
