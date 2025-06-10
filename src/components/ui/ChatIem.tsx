@@ -25,12 +25,23 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
         return label.slice(0, 20) + "....";
     }
 
+    function onClickElipses() {
+        setOpenMenu((prev) => !prev)
+    }
+
+    let container = document.querySelector(".main-container")
+    if(container) {
+        container?.addEventListener("click" , () => {
+        setOpenMenu(false)
+        })
+    }
+
     return (
         <div 
             className={`w-full rounded-md flex items-center justify-start px-2 py-[0.35rem] hover:bg-gray-200 cursor-pointer ${id === chatID && "bg-gray-300 hover:bg-gray-300"}`}
         >
             <p className="text-sm w-full" onClick={() => {navigate(`/${chatID}`); setIsOpen(false);}}>{labelHandler(chatName)}</p>
-            <section className="relative flex items-center justify-center" onClick={() => setOpenMenu(!openMenu)}>
+            <section className="relative flex items-center justify-center" onClick={onClickElipses }>
                 <Ellipsis size={15} />
                 {openMenu && <MenuDrop  chatName={chatName} chatID={chatID} />}
             </section>
