@@ -17,7 +17,7 @@ function App() {
 function AppLayout() {
   const {isOpen} = useControl() as any
   return (
-    <div className='min-h-screen flex flex-row'>
+    <div className='h-screen flex flex-row bg-black'>
       {isOpen && <Sidebar />}
       <ChatContainer />
     </div>
