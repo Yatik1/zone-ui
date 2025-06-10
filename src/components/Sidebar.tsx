@@ -43,7 +43,7 @@ function ChatBar() {
 
 
     return (
-        <div className="flex flex-col items-start justify-start gap-y-2 mt-4 p-2">
+        <div className="flex flex-col items-start justify-start gap-y-2 mt-4 p-2 sidebar">
             <div 
                 className="w-full rounded-md flex items-center justify-start p-2 gap-1 hover:bg-gray-200 cursor-pointer"
                 onClick={newChatHandler}
