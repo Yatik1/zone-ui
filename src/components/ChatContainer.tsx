@@ -10,6 +10,7 @@ import axios from 'axios';
 function ChatContainer() {
 
     const {messages,setChats,newChat,setMessages} = useMessage() as any;
+
     const {id:chatId} = useParams() as {id:string}
 
     const messagesEndRef = useRef<HTMLDivElement>(null);

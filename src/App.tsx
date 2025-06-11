@@ -3,6 +3,7 @@ import ChatContainer from './components/ChatContainer';
 import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import useControl from './hooks/useControl';
+import ModalAlert from './components/ui/Modal';
 
 function App() {
   return (
@@ -15,11 +16,14 @@ function App() {
 }
 
 function AppLayout() {
-  const {isOpen} = useControl() as any
+  const {isOpen,alertOn} = useControl() as any
+
   return (
     <div className='h-screen flex flex-row bg-black'>
       {isOpen && <Sidebar />}
-      <ChatContainer />
+      <ChatContainer />   
+      {alertOn && <ModalAlert />}
+
     </div>
   )
 }
