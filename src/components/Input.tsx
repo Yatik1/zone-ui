@@ -87,7 +87,14 @@ function Input() {
     try {
       setLoading(true)
       newMessage(message)
-      const res = await axios.post('http://localhost:8000/ask', { query: message });
+
+      const payload = {
+        query : message, 
+        chat_id:chatId,
+        user_id: user?.id
+      }
+
+      const res = await axios.post('http://localhost:8000/ask', payload);
       setMessages([...messages, res.data])
     } catch (error) {
       console.log("[Chat Post Error]", error)
