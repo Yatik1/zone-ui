@@ -170,6 +170,10 @@ function Input() {
           <FileSegment fileName={file.name} remove={removeFile} />
         )}
 
+        {listening && 
+          <div className='text-sm flex items-center justify-center px-2 py-0.5 bg-gradient-to-b from-stone-700 to-stone-500 text-white tracking-tight rounded-sm shadow-sm shadow-black'>Listening..</div>
+        }
+
         {isFile ? (
           <input
             type='text'
