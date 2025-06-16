@@ -34,11 +34,11 @@ function Header() {
          )
          }
 
-         {id && (
+         
           <section className='w-full flex items-center justify-center'>
-            <p className='text-sm text-gray-600'>{chatName}</p>
+            {id && ( <p className='text-sm text-gray-600'>{chatName}</p> )}
           </section>
-         )}
+         
 
         <header className='flex items-center justify-end'>
 
