@@ -2,7 +2,7 @@ import { Pen, Share, Trash } from "lucide-react"
 import useMessage from "../../hooks/useMessage"
 import useControl from "../../hooks/useControl"
 
-function MenuDrop({chatName, chatID} : {chatName:string, chatID?:string}) {
+function MenuDrop({chatID} : {chatID?:string}) {
 
   const {chats,setDeleteChat} = useMessage() as any
   const {setAlertOn,setIsRenaming} = useControl() as any
