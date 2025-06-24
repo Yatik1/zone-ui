@@ -43,9 +43,9 @@ function Header() {
         <header className='flex items-center justify-end'>
 
           <SignedOut>
-          <div className='bg-linear-to-br from-stone-700 via-stone-600 to-stone-400 text-white text-sm px-3 py-2 rounded-full shadow-lg/15' onClick={() => navigate("/auth/sign-in")}> 
+          <button className='w-[4.5rem] bg-linear-to-br from-stone-700 via-stone-600 to-stone-400 text-white text-sm px-3 py-2 shadow-lg/15 rounded-xl flex justify-center items-center' onClick={() => navigate("/auth/sign-in")}> 
             Sign in
-          </div>
+          </button>
           </SignedOut>
 
           <div className='flex items-center justify-center shadow-lg/20 w-fit h-fit rounded-full'>

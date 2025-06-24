@@ -20,21 +20,16 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
     const {id} = useParams() as {id:string}
     
     const [openMenu, setOpenMenu] = useState(false)
-    const [name, setName] = useState(labelHandler(chatName))
+    const [name, setName] = useState(chatName)
 
     const {deleteChat,setDeleteChat} = useMessage() as any
     const {setIsOpen,setIsRenaming, isRenaming} = useControl() as any
 
     const chatItemRef = useRef<HTMLDivElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     let currentChat:boolean = deleteChat === chatID
 
-    function labelHandler(label: string) {
-        if (label.length < 20) {
-            return label;
-        }
-        return label.slice(0, 20) + "....";
-    }
 
     function onClickElipses() {
         setOpenMenu((prev) => !prev)
@@ -68,8 +63,8 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
       }
 
 
-    function handleRenaming(e:React.ChangeEvent) {
-        setName((e.target as HTMLInputElement).value)
+    function handleRenaming(e:React.ChangeEvent<HTMLInputElement>) {
+        setName(e.target.value)
     }
 
     function handleClick() {
@@ -87,10 +82,11 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
         >
             <input 
                 type="text" 
+                ref={inputRef}
                 key={chatID}
                 value={name}
                 onChange={isRenaming && currentChat ? handleRenaming : undefined}
-                className={`text-sm w-full p-[0.2rem] ${isRenaming && currentChat ? "outline-1 outline-gray-400 rounded-sm" : "outline-none cursor-pointer" } `} 
+                className={`flex items-start justify-center text-sm w-full p-[0.2rem] ${isRenaming && currentChat ? "outline-1 outline-gray-400 rounded-sm" : "outline-none cursor-pointer" } `} 
                 onClick={isRenaming && currentChat ? undefined : handleClick}
                 onKeyDown={(e) => {
                     if(e.key === "Enter" && isRenaming && currentChat) {
@@ -98,8 +94,6 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
                     }
 
                     if(e.key === "Escape" && isRenaming && currentChat ) {
-                        console.log("exc");
-                        
                         setIsRenaming(false)
                         setDeleteChat(null)
                     }
