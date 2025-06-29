@@ -109,10 +109,12 @@ function Input() {
       setLoading(true)
       setIsFile(true)
       setSelectedResponse(undefined)
+
       newMessage(file?.name, message)
       const formData = new FormData()
       formData.append('file', file as any);
       formData.append('message', message);
+
 
       const res = await axios.post('http://localhost:8000/upload_file', formData, {
         headers: {
