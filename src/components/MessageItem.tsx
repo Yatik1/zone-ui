@@ -8,7 +8,8 @@ interface Message {
     message_id:string, 
     user_query:string, 
     ai_response:string,
-    file?:string,
+    fileName?:string,
+    fileType?:"pdf" | "txt"
   }
   
   function MessageItem({ chat }: { chat: Message }) {
@@ -16,16 +17,17 @@ interface Message {
     const renderMarkdown = (text:string) => {
       return {__html: marked(text)}
     }
-
+    
     return (
       <div className="flex flex-col w-full gap-2 animate-fade-in">
         
         <div className="flex flex-col gap-2 items-end justify-end w-full">
-        {chat?.user?.file && (
-          <div className="flex w-full items-end justify-end">
-              <FileSegment fileName={chat.user?.file} bg="white" />
-          </div>
-        )}
+        {(chat.fileName || chat.user?.file) && (
+  <div className="flex w-full items-end justify-end">
+    <FileSegment fileName={chat.fileName || chat.user?.file} fileType={chat.fileType} bg="white" />
+  </div>
+)}
+
           <div 
             className="bg-gray-200 text-black px-4 py-2 rounded-2xl max-w-[70%]"
             dangerouslySetInnerHTML={renderMarkdown(chat.user_query || chat?.user.message)}
