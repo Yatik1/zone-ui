@@ -111,9 +111,12 @@ function Input() {
       setSelectedResponse(undefined)
 
       newMessage(file?.name, message)
+
       const formData = new FormData()
       formData.append('file', file as any);
       formData.append('message', message);
+      formData.append('userId', user?.id || "")
+      formData.append('chatId', chatId)
 
 
       const res = await axios.post('http://localhost:8000/upload_file', formData, {
