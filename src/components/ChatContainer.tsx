@@ -72,10 +72,6 @@ function ChatContainer() {
       }
   } , [chatId, user?.id])
 
-  console.log(messages)
-
-
-
   if(messages.length > 3 && !isSignedIn) {
       navigate("/auth/sign-in")
   }
