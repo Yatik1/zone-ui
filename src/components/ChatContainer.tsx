@@ -9,6 +9,8 @@ import axios from 'axios';
 
 function ChatContainer() {
 
+    const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
+
     const {messages,setChats,newChat,setMessages} = useMessage() as any;
 
     const {id:chatId} = useParams() as {id:string}
@@ -22,19 +24,19 @@ function ChatContainer() {
 
     const createUser = async () => {
         try {
-          await axios.post('http://localhost:8001/api/users/', {
+          await axios.post(`${BACKEND_DB}/api/users/`, {
             user_id: user?.id,
             user_name: user?.fullName
           });
           hasCreatedUser.current = true; 
         } catch (error) {
-          console.log("Internal Error [USER CREATE ERROR]", error);
+          console.error("Internal Error [USER CREATE ERROR]", error);
         }
     };
 
     const getUserChats = async () => {
              try {
-               const response = await fetch(`http://localhost:8001/api/get_users`)
+               const response = await fetch(`${BACKEND_DB}/api/get_users`)
                const data = await response.json()
                if(data) {
                  const filteredData = data.filter((userData:any) => userData.user_id === user?.id)
@@ -43,7 +45,7 @@ function ChatContainer() {
                  })
                }
              } catch (error) {
-               console.log("Error occurred while fetching user information", error)
+               console.error("Error occurred while fetching user information", error)
              }
          }
 
@@ -57,12 +59,12 @@ function ChatContainer() {
    async function chatMessages() {
     try {
 
-      const response = await fetch(`http://localhost:8001/api/messages/${chatId}?user_id=${user?.id}`)
+      const response = await fetch(`${BACKEND_DB}/api/messages/${chatId}?user_id=${user?.id}`)
       const jsonResponse = await response.json()
       setMessages([...jsonResponse])
       
     } catch (error) {
-      console.log("Error in fetching chat based messages", error)
+      console.error("Error in fetching chat based messages", error)
     } 
   }
 
