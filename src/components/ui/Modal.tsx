@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 
 function ModalAlert() { 
 
+    const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
     const {setAlertOn} = useControl() as any
     const {deleteChat} = useMessage() as any
 
@@ -14,7 +15,7 @@ function ModalAlert() {
 
     const onDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8001/api/delete/chat/${deleteChat}?user_id=${user?.id}`)
+            await axios.delete(`${BACKEND_DB}/api/delete/chat/${deleteChat}?user_id=${user?.id}`)
             navigate("/")
             navigate(0)
         } catch (error) {
