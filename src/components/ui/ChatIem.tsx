@@ -15,6 +15,7 @@ interface ChatItemProps {
 function ChatIem({ chatName, chatID }: ChatItemProps) {
 
     const {user} = useUser() as any
+    const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
 
     const navigate = useNavigate()
     const {id} = useParams() as {id:string}
@@ -53,7 +54,7 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
           if(name.length === 0) {
             return;
          } 
-          await axios.patch(`http://localhost:8001/api/rename/${chatID}?user_id=${user?.id}`, {
+          await axios.patch(`${BACKEND_DB}/api/rename/${chatID}?user_id=${user?.id}`, {
             chat_name : name
           })
           navigate(0)
