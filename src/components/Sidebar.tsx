@@ -25,12 +25,13 @@ function Sidebar() {
 
 function ChatBar() {
 
+    const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
      const {chats,setNewChat} = useMessage() as any
      const {user} = useClerk()
 
         const newChatHandler = async () => {
             try {
-                const response = await axios.post('http://localhost:8001/api/chat/', {
+                const response = await axios.post(`${BACKEND_DB}/api/chat/`, {
                     user:user?.id, 
                     chat_name:"New Chat"
                 })
