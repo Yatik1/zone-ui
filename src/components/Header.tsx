@@ -13,7 +13,6 @@ function Header() {
   const {id} = useParams() as {id:string}
 
   const chatName = id && chats.find((chat: any) => chat.chat_id === id)?.chat_name
-  // const chatName = name?.length > 25 ? name.slice(0,25) + "..." : name 
 
   return (
     <div className="relative flex items-center justify-between border-b border-gray-200 p-2.5 h-13 bg-white">
