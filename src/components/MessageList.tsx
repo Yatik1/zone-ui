@@ -17,8 +17,8 @@ function MessageList() {
   return (
     <div className='space-y-4'>
         {messages.length >0 && 
-            messages.map((chat:any) => (
-                <div key={chat.message_id}>
+            messages.map((chat:any,index:any) => (
+                <div key={chat.message_id || index}>
                     <MessageItem chat={chat} />
                 </div>
             ))
