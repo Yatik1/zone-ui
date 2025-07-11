@@ -4,6 +4,7 @@ import useMessage from "../hooks/useMessage"
 import ChatItem from "./ui/ChatIem"
 import axios from "axios"
 import { useClerk } from "@clerk/clerk-react"
+import { useNavigate } from "react-router-dom"
 
 function Sidebar() {
     const {setIsOpen} = useControl() as any
@@ -25,33 +26,22 @@ function Sidebar() {
 
 function ChatBar() {
 
-    const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
-     const {chats,setNewChat} = useMessage() as any
+     const {chats} = useMessage() as any
      const {user} = useClerk()
 
-        const newChatHandler = async () => {
-            try {
-                const response = await axios.post(`${BACKEND_DB}/api/chat/`, {
-                    user:user?.id, 
-                    chat_name:"New Chat"
-                })
-
-                setNewChat(response.data)
-            } catch (error) {
-                console.error("Error creating new chat", error)
-            }
-        }
-
+     const navigate = useNavigate()
 
     return (
         <div className="flex flex-col items-start justify-start gap-y-2 mt-4 p-2 sidebar">
-            <div 
+            {user && (
+                <div 
                 className="w-full rounded-md flex items-center justify-start p-2 gap-1 hover:bg-gray-200 cursor-pointer"
-                onClick={newChatHandler}
+                onClick={() => {navigate("/"); navigate(0)}}
             >
                     <Pencil size={14}  />
                     <p className="text-[0.9rem]">New Chat</p>
-                </div>
+            </div>
+            )}
             <p className="text-sm text-gray-500">Chats</p>
             <section className="flex flex-col items-start justify-center w-full">
                 {chats?.map((chat:any) => (
