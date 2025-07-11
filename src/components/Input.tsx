@@ -1,20 +1,23 @@
 import { ArrowUp, File, FileText, Globe, Mic, Plus, Square, User } from 'lucide-react'
 import useMessage from '../hooks/useMessage'
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import FileSegment from './ui/FileSegment';
 import { easeIn, motion } from "motion/react"
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useClerk } from '@clerk/clerk-react';
 
 function Input() {
+
+   const LLM_URL=import.meta.env.VITE_LLM
+   const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
 
   const [loading, setLoading] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(true)
   const [isFile, setIsFile] = useState<boolean>(false)
 
-  const { setMessages, messages, setMessage: newMessage } = useMessage() as any;
+  const { setMessages, messages, setMessage: newMessage, setNewChat } = useMessage() as any;
 
   const [message, setMessage] = useState<string>("")
   const [selectedResponse, setSelectedResponse] = useState<string | undefined>("short")
@@ -22,7 +25,9 @@ function Input() {
 
   const fileInput = useRef<HTMLInputElement>(null)
   const {id:chatId} = useParams() as any
+  
   const {user} = useClerk() 
+  const navigate = useNavigate()
 
   const {
     browserSupportsSpeechRecognition,
@@ -62,21 +67,45 @@ function Input() {
     }
   }
 
+  async function handlingNewChat() {
+    try {
+                const response = await axios.post(`${BACKEND_DB}/api/chat/`, {
+                    user:user?.id, 
+                    chat_name:"New Chat Created"
+                })
+
+                return response.data
+
+            } catch (error) {
+                console.error("Error creating new chat", error)
+            }
+  }
+
   async function shortResponse() {
+
     try {
       setLoading(true)
       newMessage(message)
 
+    let currentChatId = chatId
+
+    if(!currentChatId) {
+        const newChat = await handlingNewChat()
+        setNewChat(newChat)
+        currentChatId = newChat.chat_id;
+        navigate(`/${currentChatId}`)
+    }
+
       const payload = {
         message, 
-        chat_id:chatId,
+        chat_id:currentChatId,
         user_id:user?.id
       }
-
-      const res = await axios.post('http://localhost:8000/chats', payload);
+ 
+      const res = await axios.post(`${LLM_URL}/chats`, payload);
       setMessages([...messages, res.data])
     } catch (error) {
-      console.log("[Chat Post Error]", error)
+      console.error("[Chat Post Error]", error)
     } finally {
       setMessage("")
       setLoading(false)
@@ -88,13 +117,22 @@ function Input() {
       setLoading(true)
       newMessage(message)
 
+      let currentChatId = chatId
+
+      if(!currentChatId) {
+        const newChat = await handlingNewChat()
+        setNewChat(newChat)
+        currentChatId = newChat.chat_id;
+        navigate(`/${currentChatId}`)
+      }
+
       const payload = {
         query : message, 
-        chat_id:chatId,
+        chat_id:currentChatId,
         user_id: user?.id
       }
 
-      const res = await axios.post('http://localhost:8000/ask', payload);
+      const res = await axios.post(`${LLM_URL}/ask`, payload);
       setMessages([...messages, res.data])
     } catch (error) {
       console.log("[Chat Post Error]", error)
@@ -110,16 +148,25 @@ function Input() {
       setIsFile(true)
       setSelectedResponse(undefined)
 
+      let currentChatId = chatId
+
+      if(!currentChatId) {
+        const newChat = await handlingNewChat()
+        setNewChat(newChat)
+        currentChatId = newChat.chat_id
+        navigate(`/${currentChatId}`)
+      }
+
       newMessage(file?.name, message)
 
       const formData = new FormData()
       formData.append('file', file as any);
       formData.append('message', message);
       formData.append('userId', user?.id || "")
-      formData.append('chatId', chatId)
+      formData.append('chatId', currentChatId)
 
 
-      const res = await axios.post('http://localhost:8000/upload_file', formData, {
+      const res = await axios.post(`${LLM_URL}/upload_file`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
