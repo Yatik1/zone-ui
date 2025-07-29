@@ -3,19 +3,21 @@ import useMessage from "../../hooks/useMessage"
 import { useUser } from "@clerk/clerk-react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { FlagProps } from "../../context/ControlContext"
+import { MessageContextProps } from "../../context/MessageContext"
 
 function ModalAlert() { 
 
     const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
-    const {setAlertOn} = useControl() as any
-    const {deleteChat} = useMessage() as any
+    const {setAlertOn} = useControl() as FlagProps
+    const {deleteChat} = useMessage() as MessageContextProps
 
     const {user} = useUser()
     const navigate = useNavigate()
 
     const onDelete = async () => {
         try {
-            await axios.delete(`${BACKEND_DB}/api/delete/chat/${deleteChat}?user_id=${user?.id}`)
+            await axios.delete(`${BACKEND_DB}/api/delete/chat/${deleteChat?.chat_id}?user_id=${user?.id}`)
             navigate("/")
             navigate(0)
         } catch (error) {

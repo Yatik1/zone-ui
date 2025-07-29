@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import useControl from './hooks/useControl';
 import ModalAlert from './components/ui/Modal';
+import { FlagProps } from './context/ControlContext';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
 }
 
 function AppLayout() {
-  const {isOpen,alertOn} = useControl() as any
+  const {isOpen,alertOn} = useControl() as FlagProps
 
   return (
     <div className='h-screen flex flex-row bg-black'>

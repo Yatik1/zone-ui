@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-interface FlagProps {
+export interface FlagProps {
     isOpen:boolean,
     setIsOpen:React.Dispatch<React.SetStateAction<boolean>>,
     alertOn:boolean,

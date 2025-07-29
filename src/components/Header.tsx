@@ -3,16 +3,19 @@ import { PanelLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useControl from '../hooks/useControl';
 import useMessage from '../hooks/useMessage';
+import { FlagProps } from '../context/ControlContext';
+import { MessageContextProps } from '../context/MessageContext';
+import { ChatProps } from '../types/type';
 
 function Header() {
 
   const navigate = useNavigate()
-  const {isOpen, setIsOpen} = useControl() as any
-  const {chats} = useMessage() as any
+  const {isOpen, setIsOpen} = useControl() as FlagProps
+  const {chats} = useMessage() as MessageContextProps
 
   const {id} = useParams() as {id:string}
 
-  const chatName = id && chats.find((chat: any) => chat.chat_id === id)?.chat_name
+  const chatName = id && chats.find((chat: ChatProps) => chat.chat_id === id)?.chat_name
 
   return (
     <div className="relative flex items-center justify-between border-b border-gray-200 p-2.5 h-13 bg-white">
@@ -26,7 +29,7 @@ function Header() {
           >
             <PanelLeft size={20}/>
           </small>
-          <h2 className="flex items-center justify-center text-2xl font-semibold bg-gradient-to-r from-stone-700 via-stone-600 to-stone-500 bg-clip-text text-transparent">
+          <h2 className="flex items-center justify-center text-2xl font-semibold bg-gradient-to-r from-stone-700 via-stone-600 to-stone-500 bg-clip-text text-transparent" onClick={() => {navigate("/");navigate(0)}}>
             Zone
           </h2>
          </nav>

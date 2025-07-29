@@ -1,25 +1,7 @@
 import React, { createContext, useState } from "react"
+import { MessageProps, InputProps, ChatProps, DeleteChatProp } from "../types/type";
 
-interface InputProps {
-    message:string
-}
-
-interface MessageProps {
-    query:string, 
-    response: string
-}
-
-interface ChatProps {
-    chat_id:string, 
-    chat_name:string, 
-    user:string,
-}
-
-interface DeleteChatProp {
-    chat_id:string
-}
-
-type MessageContextProps =  {
+export type MessageContextProps =  {
     messages: MessageProps[],
     setMessages:React.Dispatch<React.SetStateAction<MessageProps[]>> ,
     message: InputProps | null,
