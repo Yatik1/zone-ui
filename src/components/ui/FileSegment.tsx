@@ -1,6 +1,6 @@
 import { File, FileText, X } from 'lucide-react'
 
-function FileSegment({fileName, fileType ,remove}:{fileName:string, remove?:() => void, bg?:string, fileType?:string}) {
+function FileSegment({fileName, fileType ,remove}:{fileName?:string, remove?:() => void, bg?:string, fileType?:string}) {
     
     
 

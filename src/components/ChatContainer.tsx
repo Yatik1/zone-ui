@@ -6,12 +6,14 @@ import MessageList from './MessageList'
 import { useUser } from '@clerk/clerk-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { MessageContextProps } from '../context/MessageContext';
+import { UserDataProps } from '../types/type';
 
 function ChatContainer() {
 
     const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
 
-    const {messages,setChats,newChat,setMessages} = useMessage() as any;
+    const {messages,setChats,newChat,setMessages} = useMessage() as MessageContextProps ;
 
     const {id:chatId} = useParams() as {id:string}
 
@@ -39,8 +41,8 @@ function ChatContainer() {
                const response = await fetch(`${BACKEND_DB}/api/get_users`)
                const data = await response.json()
                if(data) {
-                 const filteredData = data.filter((userData:any) => userData.user_id === user?.id)
-                 filteredData.forEach((data:any) => {
+                 const filteredData = data.filter((userData:UserDataProps) => userData.user_id === user?.id)
+                 filteredData.forEach((data:UserDataProps) => {
                    setChats([...data.chats].reverse())
                  })
                }
@@ -74,7 +76,7 @@ function ChatContainer() {
       }
   } , [chatId, user?.id])
 
-  if(messages.length > 3 && !isSignedIn) {
+  if(!isSignedIn) {
       navigate("/auth/sign-in")
   }
 
@@ -82,12 +84,13 @@ function ChatContainer() {
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-    scrollToBottom()
+    scrollToBottom() 
   } , [messages])
 
   return (
     <div className='flex flex-col w-full h-screen bg-white main-container'>
         <Header />
+        <figcaption className='w-full bg-amber-500 p-1 flex items-center justify-center text-sm'>⚠️ Zone is still in development.</figcaption>
         <div className="flex-1 overflow-hidden flex flex-col max-w-4xl w-full mx-auto px-4 md:px-6">
             <div className='flex-1 overflow-y-auto py-6 noscroll'>
               <MessageList />
