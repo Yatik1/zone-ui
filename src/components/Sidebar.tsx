@@ -2,12 +2,13 @@ import { PanelLeftClose, Pencil } from "lucide-react"
 import useControl from "../hooks/useControl"
 import useMessage from "../hooks/useMessage"
 import ChatItem from "./ui/ChatIem"
-import axios from "axios"
 import { useClerk } from "@clerk/clerk-react"
 import { useNavigate } from "react-router-dom"
+import { MessageContextProps } from "../context/MessageContext"
+import { FlagProps } from "../context/ControlContext"
 
 function Sidebar() {
-    const {setIsOpen} = useControl() as any
+    const {setIsOpen} = useControl() as FlagProps
 
   return (
     <div className="w-[18rem] h-screen bg-[#F9F9F9] border-r border-gray-200 ">
@@ -26,7 +27,7 @@ function Sidebar() {
 
 function ChatBar() {
 
-     const {chats} = useMessage() as any
+     const {chats} = useMessage() as MessageContextProps
      const {user} = useClerk()
 
      const navigate = useNavigate()
@@ -44,7 +45,7 @@ function ChatBar() {
             )}
             <p className="text-sm text-gray-500">Chats</p>
             <section className="flex flex-col items-start justify-center w-full">
-                {chats?.map((chat:any) => (
+                {chats?.map((chat) => (
                 <span key={chat.chat_id} className="w-full">
                     <ChatItem chatName={chat.chat_name} chatID={chat.chat_id} />
                 </span>

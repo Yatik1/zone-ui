@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import useMessage from "../../hooks/useMessage";
 import axios from "axios";
 import { useUser } from "@clerk/clerk-react";
+import { MessageContextProps } from "../../context/MessageContext";
+import { FlagProps } from "../../context/ControlContext";
 
 interface ChatItemProps {
     chatName:string, 
@@ -14,7 +16,7 @@ interface ChatItemProps {
 
 function ChatIem({ chatName, chatID }: ChatItemProps) {
 
-    const {user} = useUser() as any
+    const {user} = useUser()
     const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
 
     const navigate = useNavigate()
@@ -23,14 +25,11 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
     const [openMenu, setOpenMenu] = useState(false)
     const [name, setName] = useState(chatName)
 
-    const {deleteChat,setDeleteChat} = useMessage() as any
-    const {setIsOpen,setIsRenaming, isRenaming} = useControl() as any
+    const {deleteChat,setDeleteChat} = useMessage() as MessageContextProps
+    const {setIsOpen,setIsRenaming, isRenaming} = useControl() as FlagProps
 
     const chatItemRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
-
-    let currentChat:boolean = deleteChat === chatID
-
 
     function onClickElipses() {
         setOpenMenu((prev) => !prev)
@@ -54,6 +53,7 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
           if(name.length === 0) {
             return;
          } 
+
           await axios.patch(`${BACKEND_DB}/api/rename/${chatID}?user_id=${user?.id}`, {
             chat_name : name
           })
@@ -86,20 +86,20 @@ function ChatIem({ chatName, chatID }: ChatItemProps) {
                 ref={inputRef}
                 key={chatID}
                 value={name}
-                onChange={isRenaming && currentChat ? handleRenaming : undefined}
-                className={`flex items-start justify-center text-sm w-full p-[0.2rem] ${isRenaming && currentChat ? "outline-1 outline-gray-400 rounded-sm" : "outline-none cursor-pointer" } `} 
-                onClick={isRenaming && currentChat ? undefined : handleClick}
+                onChange={isRenaming && deleteChat && deleteChat.chat_id === chatID ? handleRenaming : undefined}
+                className={`flex items-start justify-center text-sm w-full p-[0.2rem] ${isRenaming && deleteChat && deleteChat.chat_id === chatID ? "outline-1 outline-gray-400 rounded-sm" : "outline-none cursor-pointer" } `} 
+                onClick={isRenaming && deleteChat && deleteChat.chat_id === chatID ? undefined : handleClick}
                 onKeyDown={(e) => {
-                    if(e.key === "Enter" && isRenaming && currentChat) {
+                    if(e.key === "Enter" && isRenaming && deleteChat && deleteChat.chat_id === chatID) {
                         OnRename()
                     }
 
-                    if(e.key === "Escape" && isRenaming && currentChat ) {
+                    if(e.key === "Escape" && isRenaming && deleteChat && deleteChat.chat_id === chatID ) {
                         setIsRenaming(false)
                         setDeleteChat(null)
                     }
                 }}
-                readOnly={isRenaming && currentChat ? false : true}
+                readOnly={isRenaming && deleteChat && deleteChat.chat_id === chatID ? false : true}
             />
                     
             <section className="relative flex items-center justify-center" onClick={onClickElipses }>

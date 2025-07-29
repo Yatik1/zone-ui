@@ -1,9 +1,10 @@
 
+import { MessageContextProps } from '../context/MessageContext'
 import useMessage from '../hooks/useMessage'
 import MessageItem from './MessageItem'
 
 function MessageList() {
-    const {message, messages} = useMessage() as any
+    const {message, messages} = useMessage() as MessageContextProps
 
     if(!message && !messages.length) {
         return (
@@ -17,7 +18,7 @@ function MessageList() {
   return (
     <div className='space-y-4'>
         {messages.length >0 && 
-            messages.map((chat:any,index:any) => (
+            messages.map((chat, index) => (
                 <div key={chat.message_id || index}>
                     <MessageItem chat={chat} />
                 </div>
