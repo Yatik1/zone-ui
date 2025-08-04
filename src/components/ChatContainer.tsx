@@ -8,12 +8,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { MessageContextProps } from '../context/MessageContext';
 import { UserDataProps } from '../types/type';
+import useControl from '../hooks/useControl';
+import { FlagProps } from '../context/ControlContext';
 
 function ChatContainer() {
 
     const BACKEND_DB = import.meta.env.VITE_BACKEND_DB
 
-    const {messages,setChats,newChat,setMessages} = useMessage() as MessageContextProps ;
+    const {messages,setChats,newChat,setMessages} = useMessage() as MessageContextProps
+    const {setIsLoading} = useControl() as FlagProps;
 
     const {id:chatId} = useParams() as {id:string}
 
@@ -38,6 +41,7 @@ function ChatContainer() {
 
     const getUserChats = async () => {
              try {
+                setIsLoading(true)
                const response = await fetch(`${BACKEND_DB}/api/get_users`)
                const data = await response.json()
                if(data) {
@@ -46,6 +50,7 @@ function ChatContainer() {
                    setChats([...data.chats].reverse())
                  })
                }
+               setIsLoading(false)
              } catch (error) {
                console.error("Error occurred while fetching user information", error)
              }
@@ -55,8 +60,10 @@ function ChatContainer() {
     if (isSignedIn && user?.id && user?.fullName && !hasCreatedUser.current && !newChat) {
       createUser()
     }
-    getUserChats()
-  }, [isSignedIn, user, newChat]);
+    if(isSignedIn && user) {
+      getUserChats()
+    }
+  }, [ user, newChat]);
 
    async function chatMessages() {
     try {
