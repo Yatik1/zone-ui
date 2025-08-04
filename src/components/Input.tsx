@@ -47,14 +47,12 @@ function Input() {
     listening,
   } = useSpeechRecognition();
 
-  // ✅ useEffect at top level
   useEffect(() => {
     if (!listening && transcript) {
       setMessage(transcript);
     }
   }, [listening, transcript]);
 
-  // ✅ useEffect to handle button state
   useEffect(() => {
     setDisabled(!(message.trim().length > 0));
   }, [message]);
@@ -86,7 +84,7 @@ function Input() {
     try {
       const response = await axios.post(`${BACKEND_DB}/api/chat/`, {
         user: user?.id,
-        chat_name: "New Chat Created",
+        chat_name: "New Chat",
       });
       return response.data;
     } catch (error) {
