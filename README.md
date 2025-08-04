@@ -10,7 +10,7 @@ Built for seamless UI interactions, persistent context tracking, and real-time A
 
 | Service        | Description                                           | Repository Link |
 |----------------|-------------------------------------------------------|------------------|
-| **Frontend UI** | Vite + React-based drag-and-drop interface            | [zone-ui](https://github.com/Yatik1/zone-ui) |
+| **Frontend UI** | Vite + React-Typescript based        | [zone-ui](https://github.com/Yatik1/zone-ui) |
 | **AI Server**   | AI agent core using LLMs for reasoning & conversation | [zone-ai-server](https://github.com/Yatik1/zone-ai-server) |
 | **DB Server**   | Manages data, sessions, and user context              | [zone-db-server](https://github.com/Yatik1/zone-db-server) |
 
