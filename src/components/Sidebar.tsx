@@ -29,6 +29,7 @@ function ChatBar() {
 
      const {chats} = useMessage() as MessageContextProps
      const {user} = useClerk()
+     const {isLoading} = useControl() as FlagProps
 
      const navigate = useNavigate()
 
@@ -45,11 +46,21 @@ function ChatBar() {
             )}
             <p className="text-sm text-gray-500">Chats</p>
             <section className="flex flex-col items-start justify-center w-full">
-                {chats?.map((chat) => (
-                <span key={chat.chat_id} className="w-full">
-                    <ChatItem chatName={chat.chat_name} chatID={chat.chat_id} />
-                </span>
-            ))}
+            {   
+                isLoading ? (
+                    [1,2,3,4,5].map((_, index) => (
+                        <span key={index} className="w-full px-2 py-[0.35rem] h-9 bg-gray-200 rounded-md mb-3 animate-pulse" />
+                    ))
+                ) : 
+                (
+                    <>
+                        {chats?.map((chat: { chat_id: string; chat_name: string }) => (
+                            <span key={chat.chat_id} className="w-full">
+                                <ChatItem chatName={chat.chat_name} chatID={chat.chat_id} />
+                            </span>
+                        ))}
+                    </>
+                )}
             </section>
         </div>
     )
